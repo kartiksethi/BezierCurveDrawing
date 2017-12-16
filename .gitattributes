@@ -1,1 +1,3 @@
 *.rb linguist-language=C++
+documentation/* linguist-documentation
+html/* linguist-documentation
