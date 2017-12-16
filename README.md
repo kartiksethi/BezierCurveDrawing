@@ -3,6 +3,7 @@
 An OpenGL based implementation to render interactive Bezier Curves using [Geomview](www.geomview.org/).
 
 We can create outputs similar to the following:
+[Bezier Curve](images/bez.png)
 
 Steps to get the code running:
 
