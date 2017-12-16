@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>KAT Systems Mark III</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="index.html">Home</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                
+                    
+                    <li>
+                        <a href="#intro">Introduction</a>
+                    </li>
+                    <li>
+                        <a href="#bezier">Bezier Curves</a>
+                    </li>                
+					<li>
+                        <a href="#mesh">Polygonal Mesh</a>
+                    </li>
+                    <li>
+                        <a href="#rev">Surface of Revolution</a>
+                    </li>
+                    <li>
+                        <a href="#results">Results</a>
+                    </li>
+                    <li>
+                        <a href="#problems">Speedbreakers</a>
+                    </li>                    
+                    <li>
+                        <a href="#team">The Artists</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>KAT Studios</h1>
+                        <h2>Mark III</h2>
+                        <hr class="small">
+                        <span class="subheading">Interactive Bezier Curve Drawing and Surface of Revolution Generation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-preview">
+                    
+                        <h2 class="post-title" id="intro">
+                            Introduction
+                        </h2>
+                        <p class="post-subtitle" style="text-align:justify;">
+                            Bezier Curves are a family of parametric curves which are specified using a set of control points. These control points define the bounds of the curve. Results from linear algebra show that the curves must lie in the convex hull defined by these control points. In this project, KAT Systems built an interactive Bezier Curve Drawer using OpenGL and GLUT. The system is also capable of creating surfaces of revolution using the curve generated. These surfaces can be visualized using GEOMVIEW.
+                        </p>
+                    
+                   
+                </div>
+                <hr>
+                <div class="post-preview">
+                   
+                        <h2 class="post-title" id="bezier">
+                            Bezier Curves
+                        </h2>
+                        <p class="post-subtitle" style="text-align:justify;">
+                            The program produces Bezier curves using the de Casteljau's algorithm which involved repeatedly linear interpolating between points. In fact, the curve follows the following recursion:
+                            <br>
+                            Given an array of n points ARR[0:n], Bezier(t, Arr[0:n]) = Interpolate(Bezier(t, Arr[0:n-1]), Bezier(t, Arr[1:n]), t)
+                            <br>
+                            An iterative version of this recursion has been applied to generate the curve. The BezierDrawer class abstracts away all the rendering components and only focuses on calculating the points and storing them in an array. Typically, any change in the state of the points (deleting, dragging) requires redoing the entire curve. However, when adding a point at the end, the current curve can be used (as mentioned in the recursive equation) and therefore the required time is half of the time required for a complete regeneration. 
+                        </p>                                             
+                    
+                </div>
+                <hr>                
+                <div class="post-preview">
+                	<h2 class="post-title" id="mesh">
+                            Polygonal Mesh
+                        </h2>
+                        <p class="post-subtitle" style="text-align:justify;">
+                        	The mesh class allows us to create a polygonal mesh using the polygons (in the form of series of triangles) created by surface of revolution class. The class also allows us to serialize all the information regarding the polygons (number of vertices, their coordinates, number of faces in he mesh, their colors, etc) into an .OFF file. This class also defines various auxiliary methods like calculateEdgeCount(): which calculates the edge count of mesh, addPoint(): which allows us to add a vertex to the mesh, addPolygon(): allows us to add series of triangles that we created in the surface of revolution class, getVertexListOfPolygon(): which fetches the vertex list of the input polygon, getVertexCoordinates(): which fetches the coordinates of input point, getVertexIndex(): fetches the vertex number of the input point. Finally, the serialize() method allows us to write the details of the polygonal mesh in a file with .OFF format.
+                        </p>
+                </div>
+
+                <hr>
+                <div class="post-preview">
+                    <h2 class="post-title" id="rev">
+                            Surface of Revolution
+                        </h2>
+                        <p class="post-subtitle" style="text-align:justify;">
+                            This class allows us to create a surface of revolution for a Bezier curve for points sampled at uniform ‘t’ value in the parametric representation of the Bezier Curve. The class allows us to first convert the points into their initial 3D representation (z coordinate = 0) as the Bezier Curve drawn in the previous task had 2D point representation. 
+							The points sampled should be rotated by a fixed angle to cover a complete surface of revolution. Methods getRotateMat() and updateVertices() allows us to find a 3D rotation matrix (with respect to each different angle) and use it to update the coordinates of the sampled points respectively. All the updated coordinate (with respect to each rotation) values are also stored. Finally, all the vertices (and their updated coordinate values) are used in the method makeMesh(), where they are used to make their corresponding polygons and those polygons are added (using addPolygon() method in Mesh class) to the mesh by converting them into a series of triangles.
+							A set of triangles looks like this:
+							<br>&nbsp;&nbsp;&nbsp;(x,y)*--* (x+1,y)
+							<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| /|
+							<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|/ |
+						  <br>(x,y+1)*--* (x+1,y+1)
+
+
+                        </p>
+                </div>
+                <hr>
+                <div class="post-preview">
+                   
+                        <h2 class="post-title" id="results">
+                            Results
+                        </h2>
+                            <img src="img/img1.png" height="400px" width="800px">                        
+                                                                     
+                    
+                </div>                
+                <hr>
+                <div class="post-preview">
+                   
+                        <h2 class="post-title" id="problems">
+                            Speedbreakers Which Didn't Stop a Bugatti
+                        </h2>
+                        <p class="post-subtitle" style="text-align:justify;">
+                        	The OFF format cannot handle non-planar surfaces. So, while making the surface of revolution, the mesh had to be
+                        	broken up into a set of triangles in order to create the OFF file.
+                </p>
+            	</div>
+                <hr>
+        <center><h2 class="post-title" id="team">
+                            The Freemasons
+                        </h2></center>
+        <br>
+        <ul id="team">
+        	<div class="row">
+        	<div class="col-sm-4">
+                    <div class="team-member text-center">
+                       
+                        <h3>Aniketh Janardhan Reddy</h3>
+                        <h4>2014A7TS0096H</h4>
+                        <a href="mailto:anikethjr@gmail.com" target="_blank">anikethjr@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member text-center">
+                        
+                        <h3>Kartik Sethi</h3>
+                        <h4>2014A7PS0130H</h4>
+                        <a href="mailto:kartik1295@gmail.com" target="_blank">kartik1295@gmail.com</a>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="team-member text-center">
+                        
+                        <h3>Tanmaya Shekhar Dabral</h3>
+                        <h4>2014A7PS0138H</h4>
+                        <a href="mailto:tanmayadabral@gmail.com" target="_blank">tanmayadabral@gmail.com</a>
+                    </div>
+                </div>
+                
+                
+                
+            </div>  
+            
+        </div>
+        </ul>
+    </footer> 
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
